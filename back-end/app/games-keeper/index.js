@@ -1,15 +1,17 @@
 const GameState = require("../game");
 const variables = require("../utls/utils");
+const MessageHandler = require("../message-handler");
 
 class GamesKeeper {
   constructor() {
     this.games = [];
 
-    this.controlVriable = false;
+    this.controlVariable = false;
 
+    MessageHandler.bind(this)();
     setInterval(() => {
-      if (this.controlVriable) return;
-      this.controlVriable = true;
+      if (this.controlVariable) return;
+      this.controlVariable = true;
       const now = new Date().getTime();
       for (let i = 0; i < this.games.length; i++) {
         let game = this.games[i];
@@ -20,12 +22,12 @@ class GamesKeeper {
         }
       }
 
-      this.controlVriable = false;
+      this.controlVariable = false;
     }, variables.MINUTE * 10);
   }
 
-  criaJogo() {
-    this.games.push(new GameState());
+  criaJogo(Player1_id, Player2_id) {
+    this.games.push(new GameState(Player1_id, Player2_id));
   }
 
   playerMovement(gameID, player_id, peca, newPos) {

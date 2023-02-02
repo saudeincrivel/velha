@@ -1,12 +1,12 @@
 const { illformed, messageConnected } = require("../ws-responses");
-const MessageHandler = require("../message-handler");
+const messageHandler = require("../message-handler");
 
 class KeepAlive {
   constructor() {
     this.connectionsNum = 0;
     this.mapa = new Map();
     this.lastMessage = new Map();
-
+    this.MessageHandler = messageHandler.bind(this);
     /**
      * *Subscribe to Messenger Event-Bus!
      **/
@@ -42,8 +42,10 @@ class KeepAlive {
       this.sendMessage(origin, illformed);
       return;
     }
+    
     console.info("Messsage received from origin : ", origin);
     console.info("Received Message: ", msg);
+    this.MessageHandler(msg);
     this.lastMessage.set(origin, new Date().getTime());
   }
   /**

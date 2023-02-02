@@ -1,5 +1,6 @@
 const { v4 } = require("uuid");
 const variables = require("../utls/utils");
+
 class Peca {
   constructor(tam, owner, pos) {
     this.tam = tam;
@@ -115,10 +116,6 @@ class GameState {
 
 module.exports = GameState;
 
-
-
-
-
 // /**
 //  *pseudo unit test
 //  *
@@ -131,15 +128,12 @@ module.exports = GameState;
 
 // // function main() {
 // //   const jogo = new GameState(1, 2);
-
 // //   console.log(mostraState(jogo.movimento()));
-
 // //   const p = {
 // //     tam: 1,
 // //     pos: { x: -1, y: -1 },
 // //     owner: 1,
 // //   };
-
 // //   const novo = {
 // //     x: 0,
 // //     y: 0,
