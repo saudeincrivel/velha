@@ -9,6 +9,7 @@ function Cell(){
 const CellStyle = styled.div`
   width: calc(80vh/3);
   height: calc(80vh/3);
+  
   border: 4px solid #264653;
   border-radius: 24px;
   background: #e76f51;
