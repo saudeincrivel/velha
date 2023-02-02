@@ -37,7 +37,7 @@ class KeepAlive {
     
     console.info("Messsage received from origin : ", origin);
     console.info("Received Message: ", msg);
-    this.MessageHandler(msg);
+    this.MessageHandler(origin,msg);
     this.lastMessage.set(origin, new Date().getTime());
   }
   /**
