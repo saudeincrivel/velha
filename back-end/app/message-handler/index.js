@@ -2,8 +2,8 @@ const {
   createGameEvent,
   playerMovementEvent,
 } = require("../ws-evends/wsEvents.json");
+const gamesKeeper = require("../games-keeper");
 
-const gamesKeeper = require('../games-keeper');
 module.exports = function socketMessageHandler(message) {
   // Events:
   // createGameEvent

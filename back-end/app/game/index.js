@@ -2,10 +2,11 @@ const { v4 } = require("uuid");
 const variables = require("../utls/utils");
 
 class Peca {
-  constructor(tam, owner, pos) {
+  constructor(tam, owner, pos, z) {
     this.tam = tam;
     this.owner = owner;
     this.pos = pos;
+    this.z = z || -1;
   }
 }
 
@@ -51,11 +52,18 @@ class GameState {
    */
   privateAlteraPecas(player_id, peca, nova_peca) {
     if (player_id === this.Player1_id) {
-      let index = this.p1_pecas.findIndex((x) => variables.compare(x, peca));
+      const index = this.p1_pecas.findIndex((x) => variables.compare(x, peca));
       this.p1_pecas[index] = nova_peca;
     } else {
-      let index = this.p2_pecas.findIndex((x) => variables.compare(x, peca));
+      const index = this.p2_pecas.findIndex((x) => variables.compare(x, peca));
       this.p2_pecas[index] = nova_peca;
+    }
+
+    if (peca.x !== -1) {
+      const index = this.grid[peca.x][peca.y].findIndex((x) =>
+        variables.compare(x, peca)
+      );
+      this.grid[peca.x][peca.y].splice(index, 1);
     }
   }
 
@@ -98,7 +106,6 @@ class GameState {
       return true;
     };
     const isValidBindded = isValid.bind(this);
-
     if (!isValidBindded(player_id, peca, newPos)) {
       return { message: "Movimento Invalido!" };
     }
@@ -120,7 +127,7 @@ module.exports = GameState;
 //  *pseudo unit test
 //  *
 //  * @param {*} state
-//  * @return {*} 
+//  * @return {*}
 //  */
 // function mostraState(state) {
 //   return JSON.stringify(state, null, 2);
