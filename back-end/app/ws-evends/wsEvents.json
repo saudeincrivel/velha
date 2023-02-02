@@ -1,0 +1,4 @@
+{
+    "createGameEvent": "create-game",
+    "playerMovementEvent": "player-movement"
+}
