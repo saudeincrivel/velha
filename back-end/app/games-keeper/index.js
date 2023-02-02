@@ -1,14 +1,11 @@
 const GameState = require("../game");
 const variables = require("../utls/utils");
-const MessageHandler = require("../message-handler");
 
 class GamesKeeper {
   constructor() {
     this.games = [];
 
     this.controlVariable = false;
-
-    MessageHandler.bind(this)();
     setInterval(() => {
       if (this.controlVariable) return;
       this.controlVariable = true;
