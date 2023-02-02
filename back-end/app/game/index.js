@@ -1,5 +1,5 @@
-const { v4} = require('uuid');
-
+const { v4 } = require("uuid");
+const variables = require("../utls/utils");
 class Peca {
   constructor(tam, owner, pos) {
     this.tam = tam;
@@ -28,44 +28,124 @@ class GameState {
       [[], [], []],
     ];
   }
-
-  outOfBounds({ x, y }) {
+  /**
+   *
+   * check if x,y is out of bounds!
+   * @param {*} pos{ x, y }
+   * @return {boolean}
+   * @memberof GameState
+   */
+  privateOutOfBounds(pos) {
+    const { x, y } = pos;
     return x < 0 || y < 0 || x >= 9 || y >= 9;
   }
 
-  alteraPeca(player_id, peca, nova_peca) {
+  /**
+   *  altera peca no array de pecas..
+   *
+   * @param {*} player_id
+   * @param {*} peca
+   * @param {*} nova_peca
+   * @memberof GameState
+   */
+  privateAlteraPecas(player_id, peca, nova_peca) {
     if (player_id === this.Player1_id) {
-      let index = this.p1_pecas.findIndex(peca);
+      let index = this.p1_pecas.findIndex((x) => variables.compare(x, peca));
       this.p1_pecas[index] = nova_peca;
     } else {
-      let index = this.p2_pecas.findIndex(peca);
+      let index = this.p2_pecas.findIndex((x) => variables.compare(x, peca));
       this.p2_pecas[index] = nova_peca;
     }
   }
 
+  /**
+   * returns current game state
+   *
+   * @return {Object <GameState>}
+   * @memberof GameState
+   */
+  privateCurrentState() {
+    return {
+      Player1_id: this.Player1_id,
+      Player2_id: this.Player2_id,
+      p1_pecas: this.p1_pecas,
+      p2_pecas: this.p2_pecas,
+      grid: this.grid,
+    };
+  }
+
+  /**
+   * applies movement no game
+   *
+   * @param {*} player_id
+   * @param {*} peca
+   * @param {*} newPos
+   * @return {*}
+   * @memberof GameState
+   */
   movimento(player_id, peca, newPos) {
-    function isValid(player_id, peca, newPos) {
+    if (!player_id) return this.privateCurrentState();
+    const isValid = function (player_id, peca, newPos) {
+      if (peca.owner !== player_id) return false;
       const { x, y } = newPos;
-      if (outOfBounds(newPos)) return false;
+      if (this.privateOutOfBounds(newPos)) return false;
       let tam_new = this.grid[x][y].length;
       if (tam_new) {
         let aquelaPeca = this.grid[nx][ny][tam_new - 1];
         if (aquelaPeca.tam > peca.tam) return false;
-        if (aquelaPeca.owner !== player_id) return false;
       }
       return true;
+    };
+    const isValidBindded = isValid.bind(this);
+
+    if (!isValidBindded(player_id, peca, newPos)) {
+      return { message: "Movimento Invalido!" };
     }
 
-    if (!isValid(player_id, peca, newPos)) {
-      return { message: "Movimento Invalido" };
-    }
-    this.alteraPeca(player_id, peca, { ...peca, x: x, y: y });
+    this.privateAlteraPecas(player_id, peca, {
+      ...peca,
+      pos: newPos,
+    });
 
     peca.pos = newPos;
-    this.grid[x][y].push(peca);
-
-    return this.grid;
+    this.grid[newPos.x][newPos.y].push(peca);
+    return this.privateCurrentState();
   }
 }
 
 module.exports = GameState;
+
+
+
+
+
+// /**
+//  *pseudo unit test
+//  *
+//  * @param {*} state
+//  * @return {*} 
+//  */
+// function mostraState(state) {
+//   return JSON.stringify(state, null, 2);
+// }
+
+// // function main() {
+// //   const jogo = new GameState(1, 2);
+
+// //   console.log(mostraState(jogo.movimento()));
+
+// //   const p = {
+// //     tam: 1,
+// //     pos: { x: -1, y: -1 },
+// //     owner: 1,
+// //   };
+
+// //   const novo = {
+// //     x: 0,
+// //     y: 0,
+// //   };
+// //   console.log(" noovonvovnovo\n\n\n");
+// //   console.log(mostraState(jogo.movimento(1, p, novo)));
+// // }
+
+// // main();
