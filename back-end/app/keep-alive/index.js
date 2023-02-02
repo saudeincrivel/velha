@@ -13,14 +13,6 @@ class KeepAlive {
     setInterval(() => {
       this.checkConnections();
     }, 30 * SECOND);
-
-    setInterval(() => {
-      this.broadCastMessage({
-        type: "h",
-        content: "h",
-        maticPrice: getPrice(),
-      });
-    }, 15 * SECOND);
   }
 
   sendMessage(receiver, messageBody) {
