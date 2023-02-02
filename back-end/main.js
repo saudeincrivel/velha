@@ -1,6 +1,5 @@
 require("dotenv").config();
 const keepAlive = require("./app/keep-alive");
-const gamesKeeper = require("./app/games-keeper");
 const { publicConnection } = require("./app/websocket-conection");
 
 /**
