@@ -5,28 +5,32 @@ export default class StandardScene extends Scene {
 	constructor() {
 		super('StandardScene')
 	}
-	
-	preload() {}
 
-	create() {	
+	preload() { }
+
+	create() {
 
 
-		const forma = this.add.circle(200, 200, 50, 600)
-		forma.setInteractive()
-		
-		forma.on('pointerdown', () => {
-			this.pegavelObject= forma
-		})
-		forma.on('pointerup', () => {
-			this.pegavelObject= undefined 
-		})
+
 		//verticais
-		this.add.rectangle( 700, 400, 10, 600, 100085000)
-		this.add.rectangle( 900, 400, 10, 600, 100085000)
+		this.add.rectangle(700, 400, 10, 600, 100085000)
+		this.add.rectangle(900, 400, 10, 600, 100085000)
 
 		//horizontais
 		this.add.rectangle(800, 300, 600, 10, 100085000)
 		this.add.rectangle(800, 500, 600, 10, 100085000)
+
+
+
+		const forma = this.add.circle(200, 200, 50, 600)
+		forma.setInteractive()
+
+		forma.on('pointerdown', () => {
+			this.pegavelObject = forma
+		})
+		forma.on('pointerup', () => {
+			this.pegavelObject = undefined
+		})
 	}
 
 
